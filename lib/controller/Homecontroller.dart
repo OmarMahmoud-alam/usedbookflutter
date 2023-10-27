@@ -9,7 +9,6 @@ import 'package:usedbookshop/models/bookmodel.dart';
 import 'package:usedbookshop/models/usermodel.dart';
 import 'package:usedbookshop/shared/Dio_h.dart';
 import 'package:usedbookshop/shared/variable.dart';
-import 'package:usedbookshop/utils/onesignal/onesignal.dart';
 
 class Homecontroller extends GetxController {
   final PagingController<int, Book> pagingController =
@@ -20,11 +19,17 @@ class Homecontroller extends GetxController {
   void onInit() async {
     currentuser ??= await getcurentuser();
     Get.log('2222');
-    pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
-    });
+    print('2222');
+    listenerpage();
     super.onInit();
     // initPlatformState();
+  }
+
+  void listenerpage() {
+    pagingController.addPageRequestListener((pageKey) async {
+      print('ttttt');
+      await fetchPage(pageKey);
+    });
   }
 
   Future<userModel> getcurentuser() async {
@@ -33,7 +38,7 @@ class Homecontroller extends GetxController {
     return userModel.fromjson(result.data);
   }
 
-  Future<void> _fetchPage(int pageKey) async {
+  Future<void> fetchPage(int pageKey) async {
     try {
       print(2);
 

@@ -30,13 +30,15 @@ class OtherprofileController extends GetxController {
         url: 'rate',
         data: {"seller_id": sellerUser!.user.id, "rating": rate},
         token: token);
-    if (result.data["status"] == '200') {
+    if (result.data["status"] == 200) {
       // OneSignal().sendNotificationWithExtras("You have received a rating from ${Variable.loggedInUser?.name}",{"type":"
       Fluttertoast.showToast(
           msg: 'update rate success', backgroundColor: Colors.blue);
     } else {
       Fluttertoast.showToast(msg: 'update rate failed');
-      Fluttertoast.showToast(msg: result.data['error']);
+      if (result.data['error'] != null) {
+        Fluttertoast.showToast(msg: result.data['error']);
+      }
     }
   }
 }

@@ -36,11 +36,11 @@ class Registercontroller extends GetxController {
         isregisterload = false;
         update();
       } else {
-        token = result.data['accessToken'];
+        token2 = result.data['accessToken'];
 
         String? message = result.data['message'];
-        if (token != null) {
-          token = 'Bearer ' + token!;
+        if (token2 != null) {
+          token = 'Bearer ' + token2!;
           await Cachehelp.savestring(key: 'token', value: token!);
           Get.to(() => Otp2(), arguments: emailcontroller.text.toString());
         } else if (message != null) {

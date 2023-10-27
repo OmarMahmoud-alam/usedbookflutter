@@ -7,7 +7,7 @@ class userModel {
   String? emailverifiedat;
   late String email;
   String? addressId;
-  late bool darkmode;
+  int? darkmode;
   String? phone;
   String? myrate;
   String? avragerate;
@@ -21,11 +21,12 @@ class userModel {
     emailverifiedat = json["email_verified_at"];
     email = json["email"];
     state = json["state"];
+    darkmode = json["darkmode"];
     numberrates = json["numberofrating"];
     addressId = json["address_id"].toString();
     phone = json["phone"];
-    myrate = json["myrate"];
-    avragerate = json["avragerate"];
+    myrate = json["myrate"].toString();
+    avragerate = json["avergerate"];
     imageurl = json["image"];
     createdAt = DateTime.parse(json["created_at"]);
   }
@@ -44,7 +45,7 @@ class userModel {
           id: id ?? this.id,
           state: state ?? this.state,
           name: name ?? this.name,
-          darkmode: darkmode ?? this.darkmode,
+          darkmode: this.darkmode,
           email: email ?? this.email,
           addressId: addressId ?? this.addressId,
           phone: phone ?? this.phone,
@@ -59,7 +60,7 @@ class userModel {
     required this.email,
     this.numberrates,
     this.addressId,
-    this.darkmode = false,
+    this.darkmode = 0,
     this.phone,
     this.state,
     this.myrate,

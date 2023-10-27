@@ -15,8 +15,6 @@ class SellBookMain extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      
-
       appBar: AppBar(
         backgroundColor: '#03C988'.toColor(),
         title: const Text('بيع كتب'),
@@ -141,7 +139,6 @@ class SellBookMain extends StatelessWidget {
                       child: Row(
                         children: [
                           const SizedBox(width: 80, child: Text('Book author')),
-
                           Expanded(
                             child: TextFormField(
                                 textDirection: TextDirection.ltr,
@@ -286,7 +283,7 @@ class SellBookMain extends StatelessWidget {
             height: 30,
           ),
           //addresse dropdown2
-          
+
           Row(
             children: [
               const SizedBox(
@@ -297,40 +294,42 @@ class SellBookMain extends StatelessWidget {
                   )),
               SizedBox(
                 width: width - 110,
-                child: MultiSelectDropDown.network(
-                  //   selectedOptionBackgroundColor: Colors.greenAccent,
-                  selectionType: SelectionType.single,
-                  controller: sellcontroller.addresscontroller,
-                  onOptionSelected: (options) {},
-                  networkConfig: NetworkConfig(
-                    url: '${mainUrl}addresse',
-                    method: RequestMethod.get,
-                    headers: {
-                      'Content-Type': 'application/json',
-                      'Authorization': token ?? '',
+                child: GetBuilder<Sellcontroller>(
+                  builder: (_) => MultiSelectDropDown.network(
+                    //   selectedOptionBackgroundColor: Colors.greenAccent,
+                    selectionType: SelectionType.single,
+                    controller: sellcontroller.addresscontroller,
+                    onOptionSelected: (options) {},
+                    networkConfig: NetworkConfig(
+                      url: '${mainUrl}addresse',
+                      method: RequestMethod.get,
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': token ?? '',
+                      },
+                    ),
+                    chipConfig: const ChipConfig(wrapType: WrapType.wrap),
+                    responseParser: (response) {
+                      var result = response["data"];
+
+                      final list = (result as List<dynamic>).map((e) {
+                        final item = e as Map<String, dynamic>;
+                        return ValueItem(
+                          label:
+                              'id = ${item["id"]} latitude = ${item['lat']} longitude = ${item['long']}',
+                          value: item['id'].toString(),
+                        );
+                      }).toList();
+
+                      return Future.value(list);
                     },
-                  ),
-                  chipConfig: const ChipConfig(wrapType: WrapType.wrap),
-                  responseParser: (response) {
-                    var result = response["data"];
-
-                    final list = (result as List<dynamic>).map((e) {
-                      final item = e as Map<String, dynamic>;
-                      return ValueItem(
-                        label:
-                            'id = ${item["id"]} latitude = ${item['lat']} longitude = ${item['long']}',
-                        value: item['id'].toString(),
+                    responseErrorBuilder: ((context, body) {
+                      return const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text('Error fetching the data'),
                       );
-                    }).toList();
-
-                    return Future.value(list);
-                  },
-                  responseErrorBuilder: ((context, body) {
-                    return const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text('Error fetching the data'),
-                    );
-                  }),
+                    }),
+                  ),
                 ),
               ),
             ],
@@ -344,7 +343,13 @@ class SellBookMain extends StatelessWidget {
               SizedBox(
                 height: 30,
                 child: TextButton(
-                    onPressed: () {}, child: const Text('add new addresse')),
+                    onPressed: () async {
+                      await addAddresse(sellcontroller);
+                      print(15);
+                      sellcontroller.update();
+
+                    },
+                    child: const Text('add new addresse')),
               ),
             ],
           ),

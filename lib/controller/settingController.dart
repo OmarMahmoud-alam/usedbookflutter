@@ -16,7 +16,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
 
 class SettingController extends GetxController {
-  late userModel usertemp;
+  userModel? usertemp;
   var picker = ImagePicker();
   bool usersisupdated = false;
   bool islogout = false;
@@ -29,7 +29,7 @@ class SettingController extends GetxController {
   @override
   void onInit() async {
     usertemp = currentuser!.copyWith();
-
+    update();
     super.onInit();
   }
 
@@ -59,22 +59,42 @@ class SettingController extends GetxController {
       if (phonecontroller.text.length > 4) 'phone': phonecontroller.text,
       if (namecontroller.text.length > 4) 'name': namecontroller.text,
       'Darkmode': darkmodetemp,
-      if (statecontroller.selectedOptions[0] != null ||
-          statecontroller.selectedOptions[0].label != 'none')
+      if (statecontroller.selectedOptions.isNotEmpty)
         'state': statecontroller.selectedOptions[0].label,
-      if (addresscontroller.selectedOptions != null ||
-          addresscontroller.selectedOptions[0].label != 'none')
+      if (addresscontroller.selectedOptions.isNotEmpty)
         'address_id': addresscontroller.selectedOptions[0].value,
     });
+
     print(formData.toString());
     var result = await DioHelper2.postData(
         url: "updateuser", token: token, data: formData);
     print(result.data.toString());
+    if (profileImage != null) {
+      prefix.FormData formData = prefix.FormData.fromMap({
+        "loadtype": "profileimage",
+        "image[]": await setimage(profileImage),
+      });
+      await DioHelper2.postData(
+          url: "uploadimage", token: token, data: formData);
+    }
     usersisupdated = false;
     update();
   }
 
-  void logout() {}
+  Future<prefix.MultipartFile> setimage(temp) async {
+    String fileName = temp!.path.toString().split('/').last;
+    String extend = temp!.path.toString().split('.').last;
+    Fluttertoast.showToast(msg: extend.toString());
+    print(fileName.toString());
+
+    var temp2 = await prefix.MultipartFile.fromFile(
+      temp!.path,
+      filename: fileName,
+    );
+    return temp2;
+  }
+
+/*
 
   Future<File> getImageFileFromAssets(String path) async {
     final byteData = await rootBundle.load('assets/$path');
@@ -85,5 +105,5 @@ class SettingController extends GetxController {
         .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 
     return file;
-  }
+  }*/
 }

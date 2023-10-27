@@ -26,6 +26,11 @@ class Sellcontroller extends GetxController {
   File? temp;
 
   prefix.MultipartFile? temp2;
+  final TextEditingController longcontroller = TextEditingController();
+  final TextEditingController latcontroller = TextEditingController();
+
+  //for widget from get location
+
   Future<void> setimage() async {
     selectedImages = [];
     final pickedFile = await picker.pickMultiImage(

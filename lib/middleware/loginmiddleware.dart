@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/route_middleware.dart';
 import 'package:usedbookshop/shared/variable.dart';
 
 class LoginMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
-    Get.log('enter LoginMiddleware ');
     if (token != null) {
+      print(token);
+
       // Get.log(authService.currentUser.value.isAuthenticated.toString());
-      return const RouteSettings(name: '/home');
-     /* Get.offAllNamed(
-          "/home",
-        );*/
+      return const RouteSettings(name: "/waitingpage");
     }
-    print(token);
     return null;
   }
 }

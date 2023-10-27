@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:usedbookshop/shared/Dio_h.dart';
+import 'package:usedbookshop/shared/Sharedperference_h.dart';
 import 'package:usedbookshop/shared/variable.dart';
 import 'package:usedbookshop/view/home.dart';
 
@@ -138,6 +139,9 @@ class _OtpState extends State<Otp2> {
                                     print('done');
                                     Fluttertoast.showToast(
                                         msg: "email is verified");
+                                    await Cachehelp.savestring(
+                                        key: 'token', value: token2!);
+
                                     Get.to(() => Home());
                                   } else {
                                     setState(() {

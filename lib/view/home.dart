@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:usedbookshop/controller/Homecontroller.dart';
 import 'package:usedbookshop/models/bookmodel.dart';
+import 'package:usedbookshop/shared/Dio_h.dart';
 import 'package:usedbookshop/shared/sharedwidget.dart';
-import 'package:usedbookshop/view/bookdetailsView.dart';
+import 'package:usedbookshop/shared/variable.dart';
 
 class Home extends StatelessWidget {
   Home({super.key});
@@ -13,8 +14,7 @@ class Home extends StatelessWidget {
     color: Colors.black,
   );
   final searchcontroller = SearchController();
-  final Homecontroller homecontroller =
-      Get.put(Homecontroller());
+  final Homecontroller homecontroller = Get.put(Homecontroller());
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +86,12 @@ class BookWidget extends StatelessWidget {
     var categorylength = book.categories.length;
     return InkWell(
       onTap: () {
-        Get.to(() => OnebookView(), arguments: book.id);
+        Get.toNamed(
+          '/onebook',
+          arguments: book.id,
+          //   id: 1
+          // preventDuplicates: false,
+        );
       },
       child: Container(
         width: double.infinity,
@@ -123,8 +128,7 @@ class BookWidget extends StatelessWidget {
         ),*/
 
             Padding(
-              padding: const EdgeInsets.only(
-                  left: 12.0, right: 3, bottom: 10, top: 12),
+              padding: const EdgeInsets.only(left: 12.0, right: 3, top: 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
@@ -138,20 +142,111 @@ class BookWidget extends StatelessWidget {
                         // height: 20,
                         child: Text(
                           book.name,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           style: const TextStyle(
                               //  height: 0.80,
-                              fontSize: 20,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
                       SizedBox(
-                        width: width - 325,
+                        width: width - 343,
                       ),
-                      IconButton(
-                          padding: EdgeInsets.zero,
-                          constraints: BoxConstraints(),
-                          onPressed: () {},
-                          icon: Icon(Icons.favorite_outline))
+                      /*  final response = await DioHelper2.postData(
+                                  token: token,
+                                  data: {'book_id': book.id},
+                                  url: '/favourite',
+                                );
+
+                                if (response.data['status'] != "200") {
+                                  Get.snackbar(
+                                      'Favourite', response.data["message"],
+                                      backgroundColor: Colors.green);
+                                } else {
+                                  Get.snackbar(
+                                      'Favourite', response.data["error"],
+                                      backgroundColor: Colors.red);
+                                }*/
+                      PopupMenuButton<int>(
+                        itemBuilder: (context) => [
+                          // PopupMenuItem 1
+
+                          PopupMenuItem(
+                            value: 1,
+                            // row with 2 children
+                            child: Row(
+                              children: [
+                                Icon(Icons.star),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("add to favourite")
+                              ],
+                            ),
+                          ),
+                          // PopupMenuItem 2
+                          PopupMenuItem(
+                            value: 2,
+                            // row with 2 children
+                            child: Row(
+                              children: [
+                                Icon(Icons.delete),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("delete to favourite")
+                              ],
+                            ),
+                          ),
+                        ],
+                        offset: Offset(0, 0),
+                        color: Colors.grey.withOpacity(0.5),
+                        elevation: 2,
+                        // on selected we show the dialog box
+                        onSelected: (value) async {
+                          if (value == 1) {
+                            final response = await DioHelper2.postData(
+                              token: token,
+                              data: {'book_id': book.id},
+                              url: '/favourite',
+                            );
+
+                            if (response.data['status'] == 200) {
+                              Get.snackbar(
+                                  'Favourite', response.data["message"],
+                                  backgroundColor: Colors.green);
+                            } else {
+                              if (response.data["error"] != null) {
+                                Get.snackbar(
+                                    'Favourite', response.data["error"],
+                                    backgroundColor: Colors.red);
+                              } else {
+                                Get.snackbar('Favourite',
+                                    'something went wrong pls try again ',
+                                    backgroundColor: Colors.red);
+                              }
+                            }
+                          }
+                          if (value == 2) {
+                            print(token);
+                            var response = await DioHelper2.deletedata(
+                                url: 'favourite/delete',
+                                token: token,
+                                query: {'book_id': book.id});
+                            Get.log(response.data.toString());
+                            if (response.data['status'] == 200) {
+                              Get.snackbar(
+                                  'Favourite', response.data["message"],
+                                  backgroundColor: Colors.green);
+                            } else {
+                              Get.snackbar(
+                                  'Favourite', response.data["error"].toString(),
+                                  backgroundColor: Colors.red);
+                            }
+                          }
+                        },
+                      ),
                     ],
                   ),
                   Text(

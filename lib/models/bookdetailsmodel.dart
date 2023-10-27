@@ -1,3 +1,4 @@
+import 'package:get/get_core/src/get_main.dart';
 import 'package:usedbookshop/models/Addressemodel.dart';
 import 'package:usedbookshop/models/Categorymodel.dart';
 import 'package:usedbookshop/models/bookmodel.dart';
@@ -13,6 +14,7 @@ class BookDetails {
 //  late Addresses addresses;
 
   BookDetails.fromjson(Map<String, dynamic> json) {
+    Get.log(json["users"].toString());
     this.book = Book.fromjson(json);
     this.seller = userModel.fromjson(json["users"]);
     if (json["image"] != null) {

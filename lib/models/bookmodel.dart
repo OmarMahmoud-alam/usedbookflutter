@@ -29,7 +29,9 @@ class Book {
     discription = json["discription"];
     createdAt = DateTime.parse(json["created_at"]);
     if (json["image"] != null) {
-      image = json["image"][0];
+      if (json["image"].length > 0) {
+        image = json["image"][0];
+      }
     }
     categories = [];
     if (json["categories"] != null) {

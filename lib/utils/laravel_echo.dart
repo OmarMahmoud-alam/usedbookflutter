@@ -1,5 +1,6 @@
 import 'package:laravel_echo/laravel_echo.dart';
 import 'package:pusher_client/pusher_client.dart';
+import 'package:usedbookshop/shared/variable.dart';
 
 class LaravelEcho {
   static LaravelEcho? _singleton;
@@ -32,7 +33,7 @@ class PusherConfig {
   static const key = "5b6642ead80548ab7239";
   static const secret = "16095909946f0a636df9";
   static const cluster = "eu";
-  static const hostEndPoint = "https://9274-156-203-39-222.ngrok-free.app";
+  static const hostEndPoint = mainUrlforlaravel;
   static const hostAuthEndPoint = "$hostEndPoint/api/broadcasting/auth";
   static const port = 443;
 }

@@ -5,9 +5,11 @@ import 'package:usedbookshop/shared/Dio_h.dart';
 import 'package:usedbookshop/shared/Sharedperference_h.dart';
 import 'package:usedbookshop/view/loginEnglish.dart';
 
-String? token ;
-String? token2 ;
-const String mainUrl = "http://192.168.1.12:8080/api/";
+String? token;
+String? token2;
+const String mainUrlforlaravel = "http://192.168.1.12:8080";
+const String mainUrl = "$mainUrlforlaravel/api/";
+
 const double containerlength = 200;
 const double boxsizedlengthofsellpage = 50;
 bool darkmode = false;
@@ -53,13 +55,14 @@ const List<String> statelist = [
   'Luxor'
 ];
 
-void logout() {
+void logout() async {
   print('logged out');
-  DioHelper2.getData(url: 'auth/logout', token: token!);
+  await DioHelper2.getData(url: 'auth/logout', token: token!);
   //عايزين كمان نضيف جزء one signal
   Cachehelp.removedata(key: 'token');
   Get.deleteAll(force: true);
-
+  token = null;
+  token2 = null;
   Get.offAll(() => Login2());
 }
 
@@ -84,20 +87,4 @@ String timeAgo(DateTime d) {
     return "${diff.inMinutes} ${diff.inMinutes == 1 ? "minute" : "minutes"} ago";
   }
   return "just now";
-}
-
-String convertToAgo(DateTime input) {
-  Duration diff = DateTime.now().difference(input);
-
-  if (diff.inDays >= 1) {
-    return '${diff.inDays} day${diff.inDays == 1 ? '' : 's'} ago';
-  } else if (diff.inHours >= 1) {
-    return '${diff.inHours} hour${diff.inHours == 1 ? '' : 's'} ago';
-  } else if (diff.inMinutes >= 1) {
-    return '${diff.inMinutes} minute${diff.inMinutes == 1 ? '' : 's'} ago';
-  } else if (diff.inSeconds >= 1) {
-    return '${diff.inSeconds} second${diff.inSeconds == 1 ? '' : 's'} ago';
-  } else {
-    return 'just now';
-  }
 }

@@ -1,11 +1,134 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:map_launcher/map_launcher.dart';
+import 'package:usedbookshop/models/usermodel.dart';
+import 'package:usedbookshop/shared/Dio_h.dart';
 import 'package:usedbookshop/shared/variable.dart';
+import 'package:usedbookshop/utils/geolocation/geolocation.dart';
+import 'package:usedbookshop/utils/launcher/launcher.dart';
+import 'package:usedbookshop/view/chat/chat.dart';
 import 'package:usedbookshop/view/chat/chatlistview.dart';
 import 'package:usedbookshop/view/home.dart';
 import 'package:usedbookshop/view/sellbookcopy.dart';
 import 'package:usedbookshop/view/setting/setting2.dart';
+
+Future<dynamic> addAddresse(controller1) {
+  return Get.defaultDialog(
+      title: 'ADD Addresse',
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(
+            height: 32.0,
+          ),
+          Row(
+            children: [
+              const SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                child: TextField(
+                  controller: controller1.latcontroller,
+                  keyboardType: TextInputType.text,
+                  maxLines: 1,
+                  decoration: const InputDecoration(
+                      labelText: 'Latidute',
+                      hintMaxLines: 1,
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.green, width: 4.0))),
+                ),
+              ),
+              const SizedBox(
+                width: 30,
+              ),
+              Expanded(
+                child: TextField(
+                  controller: controller1.longcontroller,
+                  keyboardType: TextInputType.text,
+                  maxLines: 1,
+                  decoration: const InputDecoration(
+                      labelText: 'longitude',
+                      hintMaxLines: 1,
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.green, width: 4.0))),
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10.0,
+          ),
+          TextButton(
+              onPressed: () async {
+                print(200);
+                var postion = await getGeoLocationPosition();
+                if (postion != null) {
+                  print("${postion.latitude} ${postion.longitude}");
+                  controller1.latcontroller.text = postion.latitude.toString();
+                  controller1.longcontroller.text =
+                      postion.longitude.toString();
+                } else {
+                  print('no points');
+                }
+              },
+              child: const Text('my location ')),
+          const SizedBox(
+            height: 30.0,
+          ),
+          Center(
+            child: Row(
+              children: [
+                const SizedBox(width: 15),
+                ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.red)),
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: const Text(
+                    'cancel',
+                    style: TextStyle(color: Colors.white, fontSize: 16.0),
+                  ),
+                ),
+                const Spacer(),
+                ElevatedButton(
+                  onPressed: () async {
+                    var result = await DioHelper2.postData(
+                        url: 'addresse',
+                        token: token,
+                        data: {
+                          "long": controller1.longcontroller.text,
+                          "lat": controller1.latcontroller.text,
+                        });
+                    if (result.data['message'] == 'Success') {
+                      Get.back();
+                      Get.snackbar('address', 'have done',
+                          backgroundColor: Colors.green);
+                    } else {
+                      Get.snackbar('address', 'error happened pls try again',
+                          backgroundColor: Colors.red);
+                    }
+                  },
+                  child: const Text(
+                    'Add addresse',
+                    style: TextStyle(color: Colors.white, fontSize: 16.0),
+                  ),
+                ),
+                const SizedBox(width: 15),
+              ],
+            ),
+          )
+        ],
+      ),
+      radius: 10.0);
+}
 
 class DefaultButton extends StatelessWidget {
   const DefaultButton({
@@ -52,6 +175,110 @@ class DefaultButton extends StatelessWidget {
                 ),
               )
             : childwidget,
+      ),
+    );
+  }
+}
+
+class MainBottomBar extends StatelessWidget {
+  final userModel user;
+
+  const MainBottomBar({
+    Key? key,
+    required this.user,
+    // required this.icons,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.red.withOpacity(0),
+      child: Container(
+        margin: const EdgeInsets.only(left: 40, right: 40, bottom: 40),
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(60),
+          // borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 2), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+          InkWell(
+            onTap: () async {
+              print('sms');
+
+              if (user.phone == null) {
+                Fluttertoast.showToast(msg: 'he doesn\'t have a mobile number');
+              } else {
+                await Launcher.makesms(user.phone!);
+              }
+            },
+            child: const Row(
+              children: [
+                Icon(
+                  Icons.sms_outlined,
+                  size: 26,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text('SMS')
+              ],
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              print('chat');
+              if (user.id == currentuser!.id) {
+                Get.snackbar('chat', 'you can\'t chat with you self ',
+                    backgroundColor: Colors.red);
+              } else {
+                Get.to(() => ChatScreen(), arguments: user.id);
+              }
+            },
+            child: const Row(
+              children: [
+                Icon(
+                  Icons.forum_outlined,
+                  size: 26,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text('chat')
+              ],
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              print('4');
+              if (user.phone == null) {
+                Fluttertoast.showToast(msg: 'he doesn\'t have a mobile number');
+              } else {
+                Launcher.makePhoneCall(user.phone!);
+              }
+            },
+            child: const Row(
+              children: [
+                Icon(
+                  Icons.phone,
+                  size: 26,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text('call')
+              ],
+            ),
+          ),
+        ]),
       ),
     );
   }
@@ -120,11 +347,12 @@ class defaultFormField extends StatelessWidget {
         decoration: InputDecoration(
           filled: true,
           isDense: true,
-          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           fillColor: fillcolor,
           labelText: label,
           hintText: hint,
-          hintStyle: TextStyle(color: Colors.grey),
+          hintStyle: const TextStyle(color: Colors.grey),
           prefixIcon: prefix,
           suffixIcon: suffix != null
               ? IconButton(
@@ -138,7 +366,7 @@ class defaultFormField extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(30.0)),
               borderSide: BorderSide(
                   width: 1, color: Color.fromARGB(255, 75, 207, 150))),
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(30.0)),
             borderSide: BorderSide(
               width: 1,
@@ -164,17 +392,17 @@ class Maindrawer extends StatelessWidget {
 
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.green,
             ), //BoxDecoration
             child: UserAccountsDrawerHeader(
-              decoration: BoxDecoration(color: Colors.green),
+              decoration: const BoxDecoration(color: Colors.green),
               accountName: Text(
                 currentuser!.name.toString(),
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
               accountEmail: Text(currentuser!.email),
-              currentAccountPictureSize: Size.square(60),
+              currentAccountPictureSize: const Size.square(60),
               currentAccountPicture: CircleAvatar(
                   //  backgroundColor: Colors.white,
                   backgroundImage: NetworkImage(currentuser!.imageurl ??
@@ -184,12 +412,13 @@ class Maindrawer extends StatelessWidget {
             ), //UserAccountDrawerHeader
           ), //DrawerHeader
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.home,
             ),
             title: const Text('Buy Books'),
             onTap: () {
-              Get.off(() => Home());
+              Get.offAllNamed('/home');
+              // Get.off(() => Home());
             },
           ),
           ListTile(
@@ -216,7 +445,7 @@ class Maindrawer extends StatelessWidget {
             ),
             title: const Text('setting'),
             onTap: () {
-              Get.off(() => Settingapp());
+              Get.to(() => Settingapp());
             },
           ),
           ListTile(
@@ -379,6 +608,84 @@ class _CheckboxDemoState extends State<_CheckboxDemo> with RestorationMixin {
           },
         ),
       ],
+    );
+  }
+}
+
+class MapsSheet2 {
+  static show({
+    required Function(AvailableMap map) onMapTap,
+  }) async {
+    final availableMaps = await MapLauncher.installedMaps;
+
+    // ignore: use_build_context_synchronously
+    Get.bottomSheet(SafeArea(
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: SingleChildScrollView(
+              child: Container(
+                child: Wrap(
+                  children: <Widget>[
+                    for (var map in availableMaps)
+                      ListTile(
+                        onTap: () => onMapTap(map),
+                        title: Text(map.mapName),
+                        /* leading: SvgPicture.asset(
+                              map.icon,
+                              height: 30.0,
+                              width: 30.0,
+                            ),*/
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ));
+  }
+}
+
+class MapsSheet {
+  static show({
+    required BuildContext context,
+    required Function(AvailableMap map) onMapTap,
+  }) async {
+    final availableMaps = await MapLauncher.installedMaps;
+
+    // ignore: use_build_context_synchronously
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Container(
+                    child: Wrap(
+                      children: <Widget>[
+                        for (var map in availableMaps)
+                          ListTile(
+                            onTap: () => onMapTap(map),
+                            title: Text(map.mapName),
+                            /* leading: SvgPicture.asset(
+                              map.icon,
+                              height: 30.0,
+                              width: 30.0,
+                            ),*/
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
