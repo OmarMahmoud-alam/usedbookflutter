@@ -26,6 +26,8 @@ class SettingController extends GetxController {
   final TextEditingController diocontroller = TextEditingController();
   final MultiSelectController addresscontroller = MultiSelectController();
   final MultiSelectController statecontroller = MultiSelectController();
+  final TextEditingController longcontroller = TextEditingController();
+  final TextEditingController latcontroller = TextEditingController();
   @override
   void onInit() async {
     usertemp = currentuser!.copyWith();

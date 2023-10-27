@@ -236,7 +236,9 @@ class Settingapp extends StatelessWidget {
                                     SizedBox(
                                       height: 30,
                                       child: TextButton(
-                                          onPressed: () {},
+                                          onPressed: () async {
+                                            await addAddresse(settingcontroller);
+                                          },
                                           child:
                                               const Text('add new addresse')),
                                     ),

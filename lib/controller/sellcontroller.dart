@@ -19,7 +19,6 @@ class Sellcontroller extends GetxController {
   final MultiSelectController categorycontroller = MultiSelectController();
   final MultiSelectController statecontroller = MultiSelectController();
   List<prefix.MultipartFile> selectedImages = [];
-  List<File> selectedImages2 = [];
   List<String> selectedcategoryList = [];
   List<XFile> xfilePick = [];
   var picker = ImagePicker();
@@ -47,18 +46,17 @@ class Sellcontroller extends GetxController {
 
         String fileName = temp!.path.toString().split('/').last;
         String extend = temp!.path.toString().split('.').last;
-        Fluttertoast.showToast(msg: extend.toString());
+        // Fluttertoast.showToast(msg: extend.toString());
         print(fileName.toString());
 
         var temp2 = await prefix.MultipartFile.fromFile(
           temp!.path,
           filename: fileName,
         );
-        selectedImages2.add(temp!);
         // temp = base64Encode(await temp.readAsBytes());
         selectedImages.add(temp2);
       }
-      Fluttertoast.showToast(msg: selectedImages.length.toString());
+      // Fluttertoast.showToast(msg: selectedImages.length.toString());
     } else {
       Fluttertoast.showToast(msg: 'Nothing is selected');
       // If no image is selected it will show a
@@ -66,6 +64,7 @@ class Sellcontroller extends GetxController {
       /*  ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Nothing is selected')));*/
     }
+    update();
   }
 
   void addusedBook() async {
@@ -109,11 +108,11 @@ class Sellcontroller extends GetxController {
       } else if (result.data["status"] != null &&
           result.data["status"] != 200) {
         Fluttertoast.showToast(
-            msg: '111' + result.data["status"]['message'].toString());
+            msg: result.data["status"]['message'].toString());
         print("error happenrd");
       } else if (result.data["error"] != null) {
         Fluttertoast.showToast(msg: result.data["error"].toString());
-        print('222' + result.data["error"].toString());
+        print(result.data["error"].toString());
       } else {
         Fluttertoast.showToast(msg: "error happenrd");
         print("error happenrd");

@@ -320,9 +320,9 @@ class _OnebookViewState extends State<OnebookView> {
                               width: 10,
                             ),
                             CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  pagecontroller.bookalldata.seller.imageurl ??
-                                      'notnow'),
+                              backgroundImage: NetworkImage(pagecontroller
+                                      .bookalldata.seller.imageurl ??
+                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnmNlNjIVoEaTFGsCD0l4O0EfejvHUiWKKwL02aircxA2mci75RwrgXwhIbdYTmYm9f-8&usqp=CAU'),
                               radius: MediaQuery.of(context).size.width / 14,
                             ),
                             const SizedBox(

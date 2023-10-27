@@ -13,6 +13,7 @@ class SellBookMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
@@ -26,10 +27,30 @@ class SellBookMain extends StatelessWidget {
           InkWell(
             onTap: () {
               sellcontroller.setimage();
+              // sellcontroller.update();
             },
             child: Container(
-              height: MediaQuery.of(context).size.height * .4,
-              child: const Center(child: Icon(Icons.add_a_photo)),
+              height: height * .4,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Center(child: Icon(Icons.add_a_photo)),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  GetBuilder<Sellcontroller>(
+                    builder: (_) => Text(
+                      sellcontroller.selectedImages.isEmpty
+                          ? "no image selected yet"
+                          : '${sellcontroller.selectedImages.length} image is selected',
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(0.4),
+                        fontSize: 20,
+                      ),
+                    ),
+                  )
+                ],
+              ),
               decoration: BoxDecoration(
                   border: Border.all(width: 1, color: Colors.black38)),
             ),
@@ -347,7 +368,6 @@ class SellBookMain extends StatelessWidget {
                       await addAddresse(sellcontroller);
                       print(15);
                       sellcontroller.update();
-
                     },
                     child: const Text('add new addresse')),
               ),
