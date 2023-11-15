@@ -30,13 +30,13 @@ class Addresses {
         lat: lat ?? this.lat,
       );
   String toString2() {
-    // TODO: implement toString
+    //  implement toString
     return 'the lat =$lat and the long=$long';
   }
 
   @override
   String toString() {
-    // TODO: implement toString
+    // implement toString
     return 'the lat =$lat ';
   }
 }

@@ -39,9 +39,7 @@ class Book {
       for (Map<String, dynamic> element in json_categories) {
         categories.add(CategoryModul.fromjson(element));
       }
-    } else {
-      print(id.toString());
-    }
+    } 
     addresses = Addresses.fromjson(json['addresses']);
   }
 

@@ -349,7 +349,6 @@ class Settingapp extends StatelessWidget {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    print('test');
                                   },
                                   child: const Row(
                                     crossAxisAlignment:

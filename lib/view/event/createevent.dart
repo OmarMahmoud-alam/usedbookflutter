@@ -19,7 +19,7 @@ class SellBookMain extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: '#03C988'.toColor(),
-        title: const Text('بيع كتب'),
+        title: const Text('event'),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -78,7 +78,7 @@ class SellBookMain extends StatelessWidget {
                         style: BorderStyle.solid)),
                 child: Column(
                   children: [
-                    //book name
+                    //event name
                     SizedBox(
                       width: double.infinity,
                       height: boxsizedlengthofsellpage,
@@ -88,12 +88,13 @@ class SellBookMain extends StatelessWidget {
                           Expanded(
                             child: TextFormField(
                                 textDirection: TextDirection.ltr,
+                    //change controller name
                                 controller: sellcontroller.booknamecontroller,
                                 keyboardType: TextInputType.text,
                                 //obscureText: sellcontroller.ispassword,
                                 validator: (value) {
                                   if (value == null || (value.trim()) == "") {
-                                    return 'pls enter book name';
+                                    return 'pls enter event name';
                                   }
                                   return null;
                                 },
@@ -110,13 +111,13 @@ class SellBookMain extends StatelessWidget {
                                     isDense: true,
                                     contentPadding: const EdgeInsets.symmetric(
                                         horizontal: 8, vertical: 8),
-                                    hintText: ' book name',
+                                    hintText: ' event name',
                                     hintTextDirection: TextDirection.ltr)),
                           ),
                         ],
                       ),
                     ),
-                    //book price
+                    //place or link
                     SizedBox(
                       width: double.infinity,
                       height: boxsizedlengthofsellpage,
@@ -126,50 +127,14 @@ class SellBookMain extends StatelessWidget {
                           Expanded(
                             child: TextFormField(
                                 textDirection: TextDirection.ltr,
+                    //change controller name
+
                                 controller: sellcontroller.pricecontroller,
-                                keyboardType: TextInputType.number,
-                                //obscureText: sellcontroller.ispassword,
-                                validator: (value) {
-                                  if (value == null || (value.trim()) == "") {
-                                    return 'pls enter book price';
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          width: 2,
-                                          color: Color.fromARGB(
-                                              195, 105, 240, 175)),
-                                      borderRadius: BorderRadius.circular(50.0),
-                                    ),
-                                    prefixIconConstraints: const BoxConstraints(
-                                        minWidth: 23, maxHeight: 20),
-                                    isDense: true,
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 8),
-                                    hintText: ' book price',
-                                    hintTextDirection: TextDirection.ltr)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    //book author
-                    SizedBox(
-                      width: double.infinity,
-                      height: boxsizedlengthofsellpage,
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 80, child: Text('Book author')),
-                          Expanded(
-                            child: TextFormField(
-                                textDirection: TextDirection.ltr,
-                                controller: sellcontroller.authorcontroller,
                                 keyboardType: TextInputType.text,
                                 //obscureText: sellcontroller.ispassword,
                                 validator: (value) {
                                   if (value == null || (value.trim()) == "") {
-                                    return 'pls enter book author';
+                                    return 'pls enter place or link';
                                   }
                                   return null;
                                 },
@@ -186,13 +151,13 @@ class SellBookMain extends StatelessWidget {
                                     isDense: true,
                                     contentPadding: const EdgeInsets.symmetric(
                                         horizontal: 8, vertical: 8),
-                                    hintText: ' book author',
+                                    hintText: ' event place',
                                     hintTextDirection: TextDirection.ltr)),
                           ),
                         ],
                       ),
                     ),
-                    //book discription
+                      //event discription
                     SizedBox(
                       width: double.infinity,
                       //height: 80,
@@ -200,7 +165,7 @@ class SellBookMain extends StatelessWidget {
                         children: [
                           const SizedBox(
                               width: 80,
-                              child: Text('Book description',
+                              child: Text('event description',
                                   textAlign: TextAlign.center)),
                           Expanded(
                             child: TextFormField(
@@ -214,7 +179,7 @@ class SellBookMain extends StatelessWidget {
                                 //obscureText: sellcontroller.ispassword,
                                 validator: (value) {
                                   if (value == null || (value.trim()) == "") {
-                                    return 'pls enter book discription';
+                                    return 'pls enter event discription';
                                   }
                                   return null;
                                 },
@@ -231,7 +196,7 @@ class SellBookMain extends StatelessWidget {
                                     isDense: true,
                                     contentPadding: const EdgeInsets.symmetric(
                                         horizontal: 8, vertical: 8),
-                                    hintText: ' book discription',
+                                    hintText: ' event discription',
                                     hintTextDirection: TextDirection.ltr)),
                           ),
                         ],
@@ -335,7 +300,6 @@ class SellBookMain extends StatelessWidget {
                     chipConfig: const ChipConfig(wrapType: WrapType.wrap),
                     responseParser: (response) {
                       var result = response["data"];
-                      print("try11");
                       final list = (result as List<dynamic>).map((e) {
                         final item = e as Map<String, dynamic>;
                         return ValueItem(

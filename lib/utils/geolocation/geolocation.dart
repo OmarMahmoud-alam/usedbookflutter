@@ -1,6 +1,5 @@
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:map_launcher/map_launcher.dart';
 
 Future<Position> getGeoLocationPosition() async {
   
@@ -39,7 +38,6 @@ Future<List<String?>> GetAddressFromLatLong(latitude, longitude) async {
   try {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(latitude, longitude);
-    print(placemarks[0]);
     Placemark place = placemarks[0];
     Address =
         '${place.administrativeArea} , ${place.locality}, ${place.country}';

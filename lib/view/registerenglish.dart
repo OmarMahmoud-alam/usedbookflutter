@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,7 +38,7 @@ class Register2 extends StatelessWidget {
                       SizedBox(
                         width: 3,
                       ),
-                      Image.asset('assets/image/person.png'),
+                      Image.asset('assets/image/personn.png'),
                       Expanded(
                         child: SizedBox(
                           height: 30,
@@ -132,19 +131,20 @@ class Register2 extends StatelessWidget {
                               if (value == null) {
                                 return 'اكتب الرقم السري لو سمحت';
                               }
-                              bool isValidpassword = true;
+                              return null;
+                              //bool isValidpassword = true;
                               //   bool isValidpassword = regExp.hasMatch(value);
                               //                              print("the password ${registercontroller.passwordcontroller}");
                               // ignore: unnecessary_null_comparison
                               // isValidpassword = true;
 
-                              if (!isValidpassword) {
+                              /*  if (!isValidpassword) {
                                 log("Not strong enough");
                                 //                                showDialog(context: context ,builder:(BuildContext buildContext)=>AlertDialog(content: Text("not strong enough")));
                                 return " كلمة السر يجب أن تحوي على الأق الثانية وعشرون حرفًا باستخدام احرف إبد  الصغيرة، أحرف متزايدة، وأرقام.";
                               } else {
                                 return null;
-                              }
+                              }*/
                             },
                             decoration: InputDecoration(
                               suffixIconConstraints:

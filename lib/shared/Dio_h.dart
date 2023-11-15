@@ -19,7 +19,6 @@ class DioHelper2 {
     String lang = 'en',
     String? token,
   }) async {
-    print(token!);
     dio!.options.headers = {
       'Authorization': token ?? '',
       'Content-Type': 'application/json',
@@ -37,7 +36,6 @@ class DioHelper2 {
     String lang = 'en',
     String? token,
   }) async {
-    print(token!);
     dio!.options.headers = {
       'Authorization': token ?? '',
       'Content-Type': 'application/json',

@@ -26,7 +26,7 @@ class _WaitingPageState extends State<WaitingPage> {
     currentuser ??= await widget.getcurentuser();
 
     await Future.delayed(Duration(seconds: 1));
-    Get.to(() => Home());
+    Get.offAll(() => Home());
   }
 
   @override

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -12,8 +11,6 @@ import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:usedbookshop/models/usermodel.dart';
 import 'package:usedbookshop/shared/Dio_h.dart';
 import 'package:usedbookshop/shared/variable.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:path_provider/path_provider.dart';
 
 class SettingController extends GetxController {
   userModel? usertemp;
@@ -40,9 +37,18 @@ class SettingController extends GetxController {
       source: source,
     );
 
+    void addaddresse(var result) {
+    var item = result["data"];
+    addresscontroller.addOneOptions([
+      ValueItem(
+          label: ' latitude = ${item['lat']} longitude = ${item['long']}',
+          value: item['id'].toString())
+    ]);
+    update();
+    }
+
     if (pickedFile != null) {
       profileImage = File(pickedFile.path);
-      print(pickedFile.path);
       update();
     } else {
       Fluttertoast.showToast(msg: 'No image selected. pls select image');
@@ -56,7 +62,6 @@ class SettingController extends GetxController {
     usersisupdated = true;
     update();
     int darkmodetemp = darkmode ? 1 : 0;
-    print(phonecontroller.text);
     Map formData = ({
       if (phonecontroller.text.length > 4) 'phone': phonecontroller.text,
       if (namecontroller.text.length > 4) 'name': namecontroller.text,
@@ -67,10 +72,7 @@ class SettingController extends GetxController {
         'address_id': addresscontroller.selectedOptions[0].value,
     });
 
-    print(formData.toString());
-    var result = await DioHelper2.postData(
-        url: "updateuser", token: token, data: formData);
-    print(result.data.toString());
+    await DioHelper2.postData(url: "updateuser", token: token, data: formData);
     if (profileImage != null) {
       prefix.FormData formData = prefix.FormData.fromMap({
         "loadtype": "profileimage",
@@ -87,7 +89,6 @@ class SettingController extends GetxController {
     String fileName = temp!.path.toString().split('/').last;
     String extend = temp!.path.toString().split('.').last;
     Fluttertoast.showToast(msg: extend.toString());
-    print(fileName.toString());
 
     var temp2 = await prefix.MultipartFile.fromFile(
       temp!.path,

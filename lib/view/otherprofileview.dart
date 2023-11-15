@@ -66,12 +66,11 @@ class Otherprofileview extends StatelessWidget {
                                       top: 30.0, left: 17.0),
                                   child: InkWell(
                                       onTap: () {
-                                        print(Get.arguments);
                                         if (Get.arguments[1]["book_id"] !=
                                             null) {
                                           Get.off(() => OnebookView(),
-                                              arguments:
-                                                  Get.arguments[1]["book_id"]);
+                                              arguments: Get.arguments[1]
+                                                  ["book_id"]);
                                         } else {
                                           Get.back();
                                         }
@@ -108,9 +107,10 @@ class Otherprofileview extends StatelessWidget {
                                 glowColor: Colors.lightGreen,
                                 initialRating: (profilecontroller
                                             .sellerUser!.user.myrate !=
-                                        null)
+                                        "null")
                                     ? double.parse(profilecontroller
-                                        .sellerUser!.user.myrate!)
+                                            .sellerUser!.user.myrate ??
+                                        '1')
                                     : 1,
                                 minRating: 1,
                                 maxRating: 5,

@@ -29,6 +29,9 @@ class Sellcontroller extends GetxController {
   final TextEditingController latcontroller = TextEditingController();
 
   //for widget from get location
+  void makeupdate() {
+    update();
+  }
 
   Future<void> setimage() async {
     selectedImages = [];
@@ -45,7 +48,7 @@ class Sellcontroller extends GetxController {
         temp = File(xfilePick[i].path);
 
         String fileName = temp!.path.toString().split('/').last;
-        String extend = temp!.path.toString().split('.').last;
+     //   String extend = temp!.path.toString().split('.').last;
         // Fluttertoast.showToast(msg: extend.toString());
         print(fileName.toString());
 
@@ -80,14 +83,7 @@ class Sellcontroller extends GetxController {
       for (var category in categorycontroller.selectedOptions) {
         selectedcategoryList.add(category.value!);
       }
-      print(selectedcategoryList.toString());
-      /*print(booknamecontroller.text);
-      print(authorcontroller.text);
-      print(statecontroller.selectedOptions[0].label);
-      print(pricecontroller.text);
-      print(addresscontroller.selectedOptions[0].value);
-      print(discriptioncontroller.text);
-      print(categorycontroller.selectedOptions);*/
+
       prefix.FormData formData = prefix.FormData.fromMap({
         "name": booknamecontroller.text,
         "author": authorcontroller.text,
@@ -112,16 +108,23 @@ class Sellcontroller extends GetxController {
         print("error happenrd");
       } else if (result.data["error"] != null) {
         Fluttertoast.showToast(msg: result.data["error"].toString());
-        print(result.data["error"].toString());
       } else {
         Fluttertoast.showToast(msg: "error happenrd");
-        print("error happenrd");
       }
     }
 
     //api call to get categories
   }
 
+  void addaddresse(var result) {
+    var item = result["data"];
+    addresscontroller.addOneOptions([
+      ValueItem(
+          label: ' latitude = ${item['lat']} longitude = ${item['long']}',
+          value: item['id'].toString())
+    ]);
+    update();
+  }
   /* void getcategorie() async {
     var result =
         await DioHelper2.getData(url: 'category', token: token, query: {});

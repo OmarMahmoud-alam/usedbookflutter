@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:usedbookshop/controller/bookdetailsController.dart';
 import 'package:usedbookshop/extensions/colors.dart';
 import 'package:usedbookshop/middleware/loginmiddleware.dart';
@@ -40,7 +39,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    print(token);
     return GetMaterialApp(
       //  home: ListChatView(),
       theme: ThemeData(

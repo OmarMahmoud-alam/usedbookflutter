@@ -1,19 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:get/get.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:usedbookshop/controller/bookdetailsController.dart';
 import 'package:usedbookshop/extensions/colors.dart';
-import 'package:usedbookshop/models/usermodel.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:usedbookshop/shared/sharedwidget.dart';
-import 'package:usedbookshop/shared/variable.dart';
-import 'package:usedbookshop/utils/launcher/launcher.dart';
-import 'package:usedbookshop/view/chat/chat.dart';
-import 'package:usedbookshop/view/otherprofileview.dart';
 
-import '../utils/geolocation/geolocation.dart';
+import 'package:usedbookshop/view/otherprofileview.dart';
 
 class OnebookView extends StatefulWidget {
   OnebookView({super.key});
@@ -29,7 +25,7 @@ class _OnebookViewState extends State<OnebookView> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    // implement dispose
     Get.delete<Bookdetailscontroller>(force: true);
 
     super.dispose();
@@ -117,15 +113,19 @@ class _OnebookViewState extends State<OnebookView> {
                               backgroundColor: Colors.grey.withOpacity(0),
                               child: IconButton(
                                 iconSize: 30,
-                                onPressed: () {},
-                                icon: (pagecontroller.bookalldata.favourite)
-                                    ? const Icon(
-                                        Icons.favorite_border,
-                                      )
-                                    : Icon(
-                                        Icons.favorite_rounded,
-                                        color: '#03C988'.toColor(),
-                                      ),
+                                onPressed: () {
+                                  pagecontroller.favourite();
+                                },
+                                icon: (pagecontroller.loadfavourite)
+                                    ? CircleAvatar()
+                                    : (!pagecontroller.bookalldata.favourite)
+                                        ? const Icon(
+                                            Icons.favorite_border,
+                                          )
+                                        : Icon(
+                                            Icons.favorite_rounded,
+                                            color: '#03C988'.toColor(),
+                                          ),
                               ))
                         ],
                       ),
@@ -516,108 +516,3 @@ class spliter extends StatelessWidget {
     );
   }
 }
-/*
-class MainBottomBar extends StatelessWidget {
-  final userModel user;
-
-  const MainBottomBar({
-    Key? key,
-    required this.user,
-    // required this.icons,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.red.withOpacity(0),
-      child: Container(
-        margin: const EdgeInsets.only(left: 40, right: 40, bottom: 40),
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(60),
-          // borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 2), // changes position of shadow
-            ),
-          ],
-        ),
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          InkWell(
-            onTap: () async {
-              print('sms');
-
-              if (user.phone == null) {
-                Fluttertoast.showToast(msg: 'he doesn\'t have a mobile number');
-              } else {
-                await Launcher.makesms(user.phone!);
-              }
-            },
-            child: const Row(
-              children: [
-                Icon(
-                  Icons.sms_outlined,
-                  size: 26,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text('SMS')
-              ],
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              print('chat');
-              if (user.id == currentuser!.id) {
-                Get.snackbar('chat', 'you can\'t chat with you self ',
-                    backgroundColor: Colors.red);
-              } else {
-                Get.to(() => ChatScreen(), arguments: user.id);
-              }
-            },
-            child: const Row(
-              children: [
-                Icon(
-                  Icons.forum_outlined,
-                  size: 26,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text('chat')
-              ],
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              print('4');
-              if (user.phone == null) {
-                Fluttertoast.showToast(msg: 'he doesn\'t have a mobile number');
-              } else {
-                Launcher.makePhoneCall(user.phone!);
-              }
-            },
-            child: const Row(
-              children: [
-                Icon(
-                  Icons.phone,
-                  size: 26,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text('call')
-              ],
-            ),
-          ),
-        ]),
-      ),
-    );
-  }
-}
-*/

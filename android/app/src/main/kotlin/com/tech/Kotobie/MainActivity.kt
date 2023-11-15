@@ -1,4 +1,4 @@
-package com.example.usedbookshop
+package com.tech.Kotobie
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -6,7 +6,6 @@ class LoginMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
     if (token != null) {
-      print(token);
 
       // Get.log(authService.currentUser.value.isAuthenticated.toString());
       return const RouteSettings(name: "/waitingpage");

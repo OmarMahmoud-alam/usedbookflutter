@@ -1,4 +1,3 @@
-import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:get/get.dart';
 import 'package:usedbookshop/models/usermodel.dart';
 import 'package:usedbookshop/shared/Dio_h.dart';
@@ -7,7 +6,8 @@ import 'package:usedbookshop/view/loginEnglish.dart';
 
 String? token;
 String? token2;
-const String mainUrlforlaravel = "http://192.168.1.12:8080";
+const String mainUrlforlaravel =
+    'https://usedbookshop.c1.is'; // "http://192.168.1.12:8080";
 const String mainUrl = "$mainUrlforlaravel/api/";
 
 const double containerlength = 200;
@@ -15,13 +15,7 @@ const double boxsizedlengthofsellpage = 50;
 bool darkmode = false;
 
 userModel?
-    currentuser; /*= userModel(
-    id: 5,
-    name: "Omar",
-    email: "omar.freecourse@gmail.com",
-    phone: "01095513638",
-    createdAt: DateTime.now(),
-    numberrates: 3);*/
+    currentuser; 
 const List<String> statelist = [
   'none',
   'Alexandria',

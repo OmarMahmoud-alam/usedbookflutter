@@ -1,5 +1,3 @@
-import 'package:usedbookshop/models/Addressemodel.dart';
-import 'package:usedbookshop/models/Categorymodel.dart';
 
 class PrevBook {
   late int id;

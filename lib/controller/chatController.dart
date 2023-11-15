@@ -1,21 +1,17 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-import 'dart:isolate';
+
 
 import 'package:dash_chat_2/dash_chat_2.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:pusher_client/pusher_client.dart';
 import 'package:usedbookshop/models/chatmessageModel.dart';
-import 'package:usedbookshop/models/usermodel.dart';
 import 'package:usedbookshop/shared/Dio_h.dart';
 import 'package:usedbookshop/shared/variable.dart';
 import 'package:usedbookshop/utils/laravel_echo.dart';
 
 class ChatController extends GetxController {
-  final _pageSize = 10;
+  //final _pageSize = 10;
   var isLastPage = false;
   int nextpage = 1;
   String otheruserid;
@@ -51,14 +47,11 @@ class ChatController extends GetxController {
       chat_id = currentuser!.id.toString() + otheruserid;
     }
     // while (true) {
-    print('59 ' + chat_id);
     //await Future.delayed(Duration(milliseconds: 500));
 
     LaravelEcho.instance.private('chat.${chat_id}').listen('.message.sent',
         (e) {
-      print('das');
       if (e is PusherEvent) {
-        print('dassss');
 
         if (e.data != null) {
           _handleNewMessage(jsonDecode(e.data!));
@@ -90,11 +83,10 @@ class ChatController extends GetxController {
 
   void LoadMoreChatMessage() async {
     if (isLastPage) {
-      print("enter the last page");
 
       Fluttertoast.showToast(msg: 'no more message');
     } else {
-      print("before enter the getChatMessages");
+   
 
       final result = await getChatMessages(
         page: nextpage,
@@ -119,10 +111,8 @@ class ChatController extends GetxController {
         'otheruser': otheruserid,
       },
     );
-    print(response.data["message "]);
 
     if (response.data["message "] == "succes") {
-      print('12345');
       chatmessageModel? temp;
       for (var element in response.data["data"]) {
         temp = chatmessageModel.fromjson(element);

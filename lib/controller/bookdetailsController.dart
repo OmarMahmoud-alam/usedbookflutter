@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
@@ -14,13 +15,13 @@ class Bookdetailscontroller extends GetxController implements GetxService {
   late List<Widget> categorieswidget;
   late BookDetails bookalldata;
   int categorylength = 0;
- List< String?>? addresseString;
+  List<String?>? addresseString;
+  bool loadfavourite = false;
   Bookdetailscontroller({
     required this.id,
   });
   @override
   void onInit() {
-    // TODO: implement onInit
     bookdata();
     super.onInit();
   }
@@ -45,6 +46,50 @@ class Bookdetailscontroller extends GetxController implements GetxService {
     addresseString = await GetAddressFromLatLong(
         double.parse(bookalldata.book.addresses.lat),
         double.parse(bookalldata.book.addresses.long));
+    update();
+  }
+
+  void favourite() async {
+    loadfavourite = true;
+    update();
+
+    if (bookalldata.favourite) {
+      final response = await DioHelper2.postData(
+        token: token,
+        data: {'book_id': bookalldata.book.id},
+        url: '/favourite',
+      );
+
+      if (response.data['status'] == 200) {
+        Get.snackbar('Favourite', response.data["message"],
+            backgroundColor: Colors.green);
+        bookalldata.favourite = false;
+      } else {
+        if (response.data["error"] != null) {
+          Get.snackbar('Favourite', response.data["error"],
+              backgroundColor: Colors.red);
+        } else {
+          Get.snackbar('Favourite', 'something went wrong pls try again ',
+              backgroundColor: Colors.red);
+        }
+      }
+    } else {
+      var response = await DioHelper2.deletedata(
+          url: 'favourite/delete',
+          token: token,
+          query: {'book_id': bookalldata.book.id});
+      Get.log(response.data.toString());
+      if (response.data['status'] == 200) {
+        Get.snackbar('Favourite', response.data["message"],
+            backgroundColor: Colors.green);
+        bookalldata.favourite = true;
+      } else {
+        Get.snackbar('Favourite', response.data["error"].toString(),
+            backgroundColor: Colors.red);
+      }
+    }
+    loadfavourite = false;
+
     update();
   }
 }

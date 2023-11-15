@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:usedbookshop/models/usermodel.dart';
 import 'package:usedbookshop/shared/Dio_h.dart';
@@ -10,7 +9,6 @@ import 'package:usedbookshop/utils/geolocation/geolocation.dart';
 import 'package:usedbookshop/utils/launcher/launcher.dart';
 import 'package:usedbookshop/view/chat/chat.dart';
 import 'package:usedbookshop/view/chat/chatlistview.dart';
-import 'package:usedbookshop/view/home.dart';
 import 'package:usedbookshop/view/sellbookcopy.dart';
 import 'package:usedbookshop/view/setting/setting2.dart';
 
@@ -31,7 +29,7 @@ Future<dynamic> addAddresse(controller1) {
               Expanded(
                 child: TextField(
                   controller: controller1.latcontroller,
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.number,
                   maxLines: 1,
                   decoration: const InputDecoration(
                       labelText: 'Latidute',
@@ -47,7 +45,7 @@ Future<dynamic> addAddresse(controller1) {
               Expanded(
                 child: TextField(
                   controller: controller1.longcontroller,
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.number,
                   maxLines: 1,
                   decoration: const InputDecoration(
                       labelText: 'longitude',
@@ -67,7 +65,6 @@ Future<dynamic> addAddresse(controller1) {
           ),
           TextButton(
               onPressed: () async {
-                print(200);
                 var postion = await getGeoLocationPosition();
                 if (postion != null) {
                   print("${postion.latitude} ${postion.longitude}");
@@ -108,6 +105,7 @@ Future<dynamic> addAddresse(controller1) {
                           "lat": controller1.latcontroller.text,
                         });
                     if (result.data['message'] == 'Success') {
+                      controller1.addaddresse(result.data);
                       Get.back();
                       Get.snackbar('address', 'have done',
                           backgroundColor: Colors.green);
@@ -212,7 +210,6 @@ class MainBottomBar extends StatelessWidget {
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
           InkWell(
             onTap: () async {
-              print('sms');
 
               if (user.phone == null) {
                 Fluttertoast.showToast(msg: 'he doesn\'t have a mobile number');
@@ -235,7 +232,6 @@ class MainBottomBar extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              print('chat');
               if (user.id == currentuser!.id) {
                 Get.snackbar('chat', 'you can\'t chat with you self ',
                     backgroundColor: Colors.red);
@@ -258,7 +254,6 @@ class MainBottomBar extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              print('4');
               if (user.phone == null) {
                 Fluttertoast.showToast(msg: 'he doesn\'t have a mobile number');
               } else {
@@ -499,7 +494,7 @@ class MainButton extends StatelessWidget {
   final Color background;
   final bool isUpperCase;
   final double radius;
-  void Function()? function;
+  final void Function()? function;
   final String text;
 
   @override
@@ -534,7 +529,8 @@ class QwalGWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset("assets/image/qwaflG.png");
+    return Container(
+        height: 200, child: Image.asset("assets/image/MainLogo.png"));
   }
 }
 

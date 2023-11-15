@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:usedbookshop/controller/logincontroller.dart';
 import 'package:usedbookshop/extensions/colors.dart';
 import 'package:usedbookshop/shared/sharedwidget.dart';
-import 'package:usedbookshop/view/register.dart';
 import 'package:usedbookshop/view/registerenglish.dart';
 
 class Login2 extends StatelessWidget {
@@ -39,7 +38,7 @@ class Login2 extends StatelessWidget {
                 child: Column(children: [
                   Row(
                     children: [
-                      Image.asset('assets/image/person.png'),
+                      Image.asset('assets/image/personn.png'),
                       const SizedBox(
                         width: 4,
                       ),
@@ -90,22 +89,23 @@ class Login2 extends StatelessWidget {
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: loginController.ispassword,
                             validator: (Value) {
-                              String pattern =
-                                  r'^(?=.*?[A-Z])(?=.*?[a-z]).{8}$';
-                              RegExp regExp = RegExp(pattern);
                               if (Value == null) {
                                 return 'write the password pls';
                               }
+                              return null;
+                              /*  String pattern =
+                                  r'^(?=.*?[A-Z])(?=.*?[a-z]).{8}$';
+                              RegExp regExp = RegExp(pattern); 
                               bool isValidpassword = regExp.hasMatch(Value);
                               //                              print("the password ${registercontroller.passwordcontroller}");
                               // ignore: unnecessary_null_comparison
-                              if (!true) {
+                             if (!true) {
                                 print("Not strong enough");
                                 //                                showDialog(context: context ,builder:(BuildContext buildContext)=>AlertDialog(content: Text("not strong enough")));
                                 return " كلمة السر يجب أن تحوي على الأق الثانية وعشرون حرفًا باستخدام احرف إبد  الصغيرة، أحرف متزايدة، وأرقام.";
                               } else {
                                 return null;
-                              }
+                              }*/
                             },
                             decoration: InputDecoration(
                               suffixIconConstraints:

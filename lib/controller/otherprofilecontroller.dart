@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:usedbookshop/models/otherprofilemodel.dart';
 import 'package:usedbookshop/shared/Dio_h.dart';
 import 'package:usedbookshop/shared/variable.dart';
-import 'package:usedbookshop/utils/onesignal/onesignal.dart';
+//import 'package:usedbookshop/utils/onesignal/onesignal.dart';
 
 class OtherprofileController extends GetxController {
   late String userId;
@@ -15,9 +15,7 @@ class OtherprofileController extends GetxController {
   void onInit() async {
     var result = await DioHelper2.getData(
         url: 'otheruserprofile', token: token, query: {"user_id": userId});
-    print(result.data);
 
-    print(5555555);
     sellerUser = Otheruser.fromjson(result.data["data"]);
     update();
 
@@ -25,7 +23,7 @@ class OtherprofileController extends GetxController {
   }
 
   void giverate(int rate) async {
-    //TODO::give rate to the other user
+    //give rate to the other user
     var result = await DioHelper2.postData(
         url: 'rate',
         data: {"seller_id": sellerUser!.user.id, "rating": rate},

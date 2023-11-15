@@ -1,10 +1,7 @@
-import 'dart:developer';
 
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+//import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:usedbookshop/models/bookmodel.dart';
 import 'package:usedbookshop/models/usermodel.dart';
 import 'package:usedbookshop/shared/Dio_h.dart';
@@ -18,8 +15,7 @@ class Homecontroller extends GetxController {
   @override
   void onInit() async {
     currentuser ??= await getcurentuser();
-    Get.log('2222');
-    print('2222');
+
     listenerpage();
     super.onInit();
     // initPlatformState();
@@ -27,7 +23,6 @@ class Homecontroller extends GetxController {
 
   void listenerpage() {
     pagingController.addPageRequestListener((pageKey) async {
-      print('ttttt');
       await fetchPage(pageKey);
     });
   }
@@ -40,11 +35,8 @@ class Homecontroller extends GetxController {
 
   Future<void> fetchPage(int pageKey) async {
     try {
-      print(2);
 
       final newItems = await getnewlistitem(pageKey, _pageSize);
-      print(newItems[0].toString());
-      print(3.5);
 
       //final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
@@ -60,7 +52,6 @@ class Homecontroller extends GetxController {
 
   Future<List<Book>> getnewlistitem(pageKey, pageSize) async {
     List<Book> newItems = [];
-    print(3);
 
     var result = await DioHelper2.getData(url: 'book', token: token, query: {
       "page_size": pageSize,
@@ -68,14 +59,12 @@ class Homecontroller extends GetxController {
     });
     var arrayOfBooksInJson = result.data['books']['data'];
     var nextlink = result.data['books']['next_page_url'];
-    print(nextlink);
 
     isLastPage = (nextlink == null);
     for (var book in arrayOfBooksInJson) {
       Book item = Book.fromjson(book);
       newItems.add(item);
     }
-    print(newItems[0].tostring());
     return newItems;
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:usedbookshop/models/chatpersonmodel.dart';
@@ -13,9 +12,7 @@ class ListchatController extends GetxController {
     chats = [];
     ChatPersonmodel cpm;
     var result = await DioHelper2.getData(url: 'getchats', token: token);
-    print(result.data);
     if (result.data['status'] == '200') {
-      print(100);
       for (var element in result.data['data']['1']) {
         cpm = ChatPersonmodel.fromjson(element);
         chats.add(cpm);
@@ -25,7 +22,6 @@ class ListchatController extends GetxController {
         chats.add(cpm);
       }
     }
-    print(chats.toString());
     chatlistintial = true;
     update();
     super.onInit();

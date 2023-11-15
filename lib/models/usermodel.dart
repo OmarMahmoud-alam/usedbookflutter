@@ -1,4 +1,5 @@
 import 'package:dash_chat_2/dash_chat_2.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class userModel {
   late int id;
@@ -16,6 +17,7 @@ class userModel {
   late DateTime createdAt;
 
   userModel.fromjson(Map<String, dynamic> json) {
+    Get.log(json.toString());
     id = json["id"];
     name = json["name"];
     emailverifiedat = json["email_verified_at"];
@@ -26,6 +28,8 @@ class userModel {
     addressId = json["address_id"].toString();
     phone = json["phone"];
     myrate = json["myrate"].toString();
+    Get.log(myrate.toString());
+
     avragerate = json["avergerate"];
     imageurl = json["image"];
     createdAt = DateTime.parse(json["created_at"]);

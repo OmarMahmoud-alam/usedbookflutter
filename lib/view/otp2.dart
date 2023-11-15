@@ -11,7 +11,7 @@ import 'package:usedbookshop/view/home.dart';
 class Otp2 extends StatefulWidget {
   Otp2({super.key});
   final String email = Get.arguments ?? currentuser!.email;
-  var otpController = OtpFieldController();
+  final otpController = OtpFieldController();
   @override
   _OtpState createState() => _OtpState();
 }
@@ -105,7 +105,6 @@ class _OtpState extends State<Otp2> {
                           style: TextStyle(fontSize: 17),
                           onChanged: (pin) {},
                           onCompleted: (pin) {
-                            print("Completed: " + pin);
                             otp = pin;
                           }),
                     ),
@@ -121,8 +120,6 @@ class _OtpState extends State<Otp2> {
                                 setState(() {
                                   isverifyload = true;
                                 });
-                                print(widget.email);
-                                print(otp);
                                 if (otp.length < 6) {
                                   Get.snackbar('otp', 'complete otp pls');
                                 } else {
@@ -136,7 +133,6 @@ class _OtpState extends State<Otp2> {
                                         "otp": int.parse(otp)
                                       });
                                   if (result.data['code'] == 1) {
-                                    print('done');
                                     Fluttertoast.showToast(
                                         msg: "email is verified");
                                     await Cachehelp.savestring(
@@ -148,7 +144,6 @@ class _OtpState extends State<Otp2> {
                                       isverifyload = false;
                                     });
                                     Get.snackbar('otp', result.data.toString());
-                                    print('dasdad');
                                     Fluttertoast.showToast(
                                         msg: "Something went wrong");
                                   }
@@ -203,19 +198,16 @@ class _OtpState extends State<Otp2> {
                         token: token,
                         query: {"email": widget.email});
                     if (result.data['code'] == 1) {
-                      print('done');
                       Fluttertoast.showToast(msg: "email is verified");
                     } else {
                       setState(() {
                         isverifyload = false;
                       });
                       Get.snackbar('otp', result.data.toString());
-                      print('dasdad');
                       Fluttertoast.showToast(msg: "Something went wrong");
                     }
                   } catch (e) {
                     Fluttertoast.showToast(msg: "Something went 22");
-                    print('dasd' + e.toString());
                   }
                 },
                 child: const Text(

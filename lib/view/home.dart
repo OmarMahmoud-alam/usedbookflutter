@@ -153,21 +153,7 @@ class BookWidget extends StatelessWidget {
                       SizedBox(
                         width: width - 343,
                       ),
-                      /*  final response = await DioHelper2.postData(
-                                  token: token,
-                                  data: {'book_id': book.id},
-                                  url: '/favourite',
-                                );
-
-                                if (response.data['status'] != "200") {
-                                  Get.snackbar(
-                                      'Favourite', response.data["message"],
-                                      backgroundColor: Colors.green);
-                                } else {
-                                  Get.snackbar(
-                                      'Favourite', response.data["error"],
-                                      backgroundColor: Colors.red);
-                                }*/
+                  
                       PopupMenuButton<int>(
                         itemBuilder: (context) => [
                           // PopupMenuItem 1
@@ -201,7 +187,7 @@ class BookWidget extends StatelessWidget {
                           ),
                         ],
                         offset: Offset(0, 0),
-                        color: Colors.grey.withOpacity(0.5),
+                        color: Colors.grey.withOpacity(0.9),
                         elevation: 2,
                         // on selected we show the dialog box
                         onSelected: (value) async {

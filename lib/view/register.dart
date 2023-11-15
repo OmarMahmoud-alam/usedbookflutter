@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -115,24 +114,26 @@ class Register extends StatelessWidget {
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: registercontroller.ispassword,
                             validator: (value) {
-                              String pattern =
-                                  r'^(?=.*?[A-Z])(?=.*?[a-z]).{8}$';
-                              RegExp regExp = RegExp(pattern);
                               if (value == null) {
                                 return 'اكتب الرقم السري لو سمحت';
                               }
+                              return null;
+                              /* String pattern =
+                                  r'^(?=.*?[A-Z])(?=.*?[a-z]).{8}$';
+                              RegExp regExp = RegExp(pattern);
+                              
                               bool isValidpassword = regExp.hasMatch(value);
                               //                              print("the password ${registercontroller.passwordcontroller}");
                               // ignore: unnecessary_null_comparison
                               isValidpassword = true;
 
-                              if (!isValidpassword) {
+                             if (!isValidpassword) {
                                 log("Not strong enough");
                                 //                                showDialog(context: context ,builder:(BuildContext buildContext)=>AlertDialog(content: Text("not strong enough")));
                                 return " كلمة السر يجب أن تحوي على الأق الثانية وعشرون حرفًا باستخدام احرف إبد  الصغيرة، أحرف متزايدة، وأرقام.";
                               } else {
                                 return null;
-                              }
+                              }*/
                             },
                             decoration: InputDecoration(
                                 prefixIconConstraints:
